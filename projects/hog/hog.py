@@ -22,8 +22,14 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    que = [dice() for i in range(num_rolls)]
+    if 1 in que:
+        return 1
+    else:
+        return sum(que)
     # END PROBLEM 1
 
+    #'strange, how do you konw this is correct? the numbers are random!'
 
 def free_bacon(score):
     """Return the points scored from rolling 0 dice (Free Bacon).
@@ -33,6 +39,10 @@ def free_bacon(score):
     assert score < 100, 'The game should be over.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    if score < 10:
+        return 10 - score
+    else:
+        return 10 + int(str(score)[0]) - int(str(score)[1])
     # END PROBLEM 2
 
 
@@ -51,8 +61,13 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert opponent_score < 100, 'The game should be over.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if num_rolls == 0:
+        return free_bacon(opponent_score)
+    else:
+        return roll_dice(num_rolls, dice)
     # END PROBLEM 3
 
+    #'too many if-else is actually a bad habit, but I like its concision...only if it doesn't draw a terrible enormous tree on the screen'
 
 def is_swap(player_score, opponent_score):
     """
@@ -60,7 +75,10 @@ def is_swap(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    return abs(player_score%10 - opponent_score%10) == opponent_score//10%10
     # END PROBLEM 4
+
+    #'this is unexpected, it's unnecessary to deal with three-digits number, but I have no choice.'
 
 
 def other(who):
@@ -100,10 +118,25 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while score0 < goal and score1 < goal:
+        if who == 0:
+            num_rolls = strategy0(score0, score1)
+            addition = take_turn(num_rolls, score1, dice)
+            score0 += addition
+            if is_swap(score0, score1):
+                score0, score1 = score1, score0
+        else:
+            num_rolls = strategy1(score1, score0)
+            addition = take_turn(num_rolls, score0, dice)
+            score1 += addition
+            if is_swap(score1, score0):
+                score0, score1 = score1, score0
+        who = other(who)
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+    
     # END PROBLEM 6
     return score0, score1
 
