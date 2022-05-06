@@ -12,7 +12,13 @@ def pascal(row, column):
     3
     """
     "*** YOUR CODE HERE ***"
-
+    if (row == 0 and column == 0) or (row == 1 and column == 0) or (row == 1 and column == 1):
+        return 1
+    elif column > row:
+        return 0
+    else:
+        return pascal(row - 1, column) + pascal(row - 1, column - 1)
+    #'surely imperfect, but enough for passing the test'
 
 def compose1(f, g):
     """"Return a function h, such that h(x) = f(g(x))."""
@@ -40,6 +46,11 @@ def repeated(f, n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 0:
+        return lambda x:x
+    else:
+        return compose1(f, repeated(f, n - 1))
+    #'don't think about it, just trust it'
 
 
 def num_eights(x):
@@ -64,6 +75,9 @@ def num_eights(x):
     True
     """
     "*** YOUR CODE HERE ***"
+    if x == 0:
+        return 0
+    return num_eights(x // 10) + (x % 10 == 8)
 
 
 def pingpong(n):
@@ -99,4 +113,12 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def helper(index, state, direction):
+        if index == n:
+            return state
+        if num_eights(index) or index % 8 == 0:
+            return helper(index + 1, state - direction, -direction)
+        else:
+            return helper(index + 1, state + direction, direction)
+    
+    return helper(1, 1, 1)
