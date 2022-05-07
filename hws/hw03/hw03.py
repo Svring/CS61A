@@ -21,6 +21,8 @@ def composer(func=lambda x: x):
     """
     def func_adder(g):
         "*** YOUR CODE HERE ***"
+        f = lambda x: func(g(x))
+        return composer(f)
     return func, func_adder
 
 
@@ -43,6 +45,10 @@ def g(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 3:
+        return n
+    else:
+        return g(n - 1) + 2 * g(n - 2) + 3 * g(n - 3)
 
 def g_iter(n):
     """Return the value of G(n), computed iteratively.
@@ -63,6 +69,13 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n <= 3:
+        return n
+    one, two, three = 1, 2, 3
+    for i in range(3, n):
+        ans = three + 2 * two + 3 * one
+        one, two, three = two, three, ans
+    return ans
 
 
 def missing_digits(n):
@@ -93,6 +106,16 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def help(n, pre):
+        cur = n % 10
+        if n == 0:
+            return 0
+        elif pre == cur:
+            return help(n // 10, cur)
+        else:
+            return help(n // 10, cur) + pre - (cur + 1)
+    
+    return help(n // 10, n % 10)
 
 
 def count_change(total):
@@ -112,6 +135,15 @@ def count_change(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def help(n, m):
+        if n == 0:
+            return 1
+        elif n < (1 << m):
+            return 0
+        else:
+            return help(n, m + 1) + help(n - (1 << m), m)
+
+    return help(total, 0)
 
 
 def print_move(origin, destination):
