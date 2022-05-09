@@ -1,6 +1,5 @@
 HW_SOURCE_FILE=__file__
 
-
 def composer(func=lambda x: x):
     """
     Returns two functions -
