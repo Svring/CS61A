@@ -216,7 +216,7 @@ def fastest_words(game):
     words = range(len(all_words(game)))    # An index for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
-    
+    return [[word_at(game, j) for j in words if min([time(game, i, j) for i in players]) is time(game, i, j)] for i in players]
     # END PROBLEM 10
 
 
