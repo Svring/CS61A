@@ -95,7 +95,15 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if user_word in valid_words:
+        return user_word
+    que = [diff_function(user_word, i, limit) for i in valid_words]
+    if min(que) <= limit:
+        return valid_words[que.index(min(que))]
+    else:
+        return user_word
     # END PROBLEM 5
+    #'I love list comprehesion, my code looks coooool!'
 
 
 def shifty_shifts(start, goal, limit):
@@ -104,31 +112,41 @@ def shifty_shifts(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    if not goal or not start:
+        return len(start) + len(goal)
+    elif limit < 0:
+        return 0
+    else:
+        return (not start[0] == goal[0]) + shifty_shifts(start[1:], goal[1:], limit - (not start[0] == goal[0]))
     # END PROBLEM 6
 
 
 def meowstake_matches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
+    if limit < 0:
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return 0
         # END
 
-    elif ___________: # Feel free to remove or add additional cases
+    elif not len(start) or not len(goal):
         # BEGIN
         "*** YOUR CODE HERE ***"
+        return len(start) + len(goal)
         # END
 
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ... 
-        substitute_diff = ... 
+        add_diff = meowstake_matches(start, goal[1:], limit - 1)
+        remove_diff = meowstake_matches(start[1:], goal, limit - 1)
+        substitute_diff = meowstake_matches(start[1:], goal[1:], limit - 1)
         # BEGIN
         "*** YOUR CODE HERE ***"
+        if start[0] is goal[0]:
+            return meowstake_matches(start[1:], goal[1:], limit)
+        return 1 + min(add_diff, remove_diff, substitute_diff)
         # END
+    #'明明目光短浅，却又无所不能'
 
 
 def final_diff(start, goal, limit):
@@ -145,6 +163,15 @@ def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    progress = 0
+    for i, j in zip(typed, prompt):
+        progress += (i == j)
+        if i != j: break
+    progress /= len(prompt)
+    dic = dict()
+    dic['id'], dic['progress'] = id, progress
+    send(dic)
+    return progress
     # END PROBLEM 8
 
 
@@ -171,7 +198,10 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    times = [[(times_per_player[i][j] - times_per_player[i][j - 1]) for j in range(1, len(times_per_player[i]))] for i in range(len(times_per_player))]
+    return game(words, times)
     # END PROBLEM 9
+    #'Infinite joyness when I use list comprehension, feel like carving a piece of art'
 
 
 def fastest_words(game):
@@ -186,6 +216,7 @@ def fastest_words(game):
     words = range(len(all_words(game)))    # An index for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    
     # END PROBLEM 10
 
 
