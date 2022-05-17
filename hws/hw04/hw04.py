@@ -1,4 +1,5 @@
 HW_SOURCE_FILE=__file__
+import functools
 
 
 def mobile(left, right):
@@ -109,9 +110,8 @@ def balanced(m):
     "*** YOUR CODE HERE ***"
     if is_planet(m):
         return True
-    elif length(left(m)) * total_weight(end(left(m))) is length(right(m)) * total_weight(end(right(m))):
-        return balanced(mobile(end(left(m)), end(right(m)))) and balanced(mobile())
-    return False
+    L, R = end(left(m)), end(right(m))
+    return balanced(L) and balanced(R) and total_weight(L) * length(left(m)) is total_weight(R) * length(right(m))
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -143,7 +143,12 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
-    
+    if is_planet(m):
+        return tree(size(m))
+    else:
+        L, R = end(left(m)), end(right(m))
+        return tree(total_weight(m), [totals_tree(L), totals_tree(R)])
+
 
 def replace_leaf(t, find_value, replace_value):
     """Returns a new tree where every leaf value equal to find_value has
@@ -175,6 +180,11 @@ def replace_leaf(t, find_value, replace_value):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t) if label(t) is not find_value else replace_value)
+    
+    else:
+        return tree(label(t), [replace_leaf(b, find_value, replace_value) for b in branches(t)])
 
 
 def preorder(t):
@@ -188,6 +198,7 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    return [label(t)] + sum([preorder(b) for b in branches(t)], [])
 
 
 def has_path(t, phrase):
@@ -220,6 +231,9 @@ def has_path(t, phrase):
     """
     assert len(phrase) > 0, 'no path for empty phrases.'
     "*** YOUR CODE HERE ***"
+    if len(phrase) == 1:
+        return phrase[0] == label(t)
+    return phrase[0] == label(t) and any([has_path(b, phrase[1:]) for b in branches(t)])
 
 
 def interval(a, b):
