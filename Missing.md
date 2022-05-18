@@ -4,4 +4,5 @@ hw03 -- extra questions & count_change
 Diagnostic Quiz  
 2.3 partition  
 lab05  
+hw04  
 Cats -- final diff, extra credit  
