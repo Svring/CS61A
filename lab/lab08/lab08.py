@@ -33,4 +33,12 @@ def make_generators_generator(g):
     9
     """
     "*** YOUR CODE HERE ***"
+    def helper(l):
+        yield from l
+    
+    sofar = []
+    gen = g()
 
+    for i in gen:
+        sofar.append(i)
+        yield helper(sofar)
