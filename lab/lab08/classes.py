@@ -232,7 +232,6 @@ class ProfessorCard(Card):
             cop.append(i)
             orig_opponent_deck_length += 1
         opponent.deck.cards = cop
-
         discarded = orig_opponent_deck_length - len(opponent.deck.cards)
         if discarded:
             #Uncomment the line below when you've finished implementing this method!
