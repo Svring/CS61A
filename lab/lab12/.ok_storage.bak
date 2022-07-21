@@ -1,0 +1,6 @@
+'scheme-def-correct', (0, 66)
+'multiples_3-correct', (512, 66)
+'compose-all-correct', (1024, 66)
+'partial-sums-correct', (1536, 66)
+'wwsd-macros-correct', (2048, 66)
+'quasiquote-correct', (2560, 66)
