@@ -24,7 +24,7 @@ CREATE TABLE favpets AS
 
 
 CREATE TABLE dog AS
-  SELECT pet, COUNT(*) FROM students WHERE pet = 'dog' GROUP BY pet;
+  SELECT pet, COUNT(*) FROM students WHERE pet = 'dog';
 
 
 CREATE TABLE bluedog_agg AS
